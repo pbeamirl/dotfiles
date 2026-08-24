@@ -4,4 +4,6 @@ Brewfile
 {{ if ne .chezmoi.os "darwin" }}
 # Status line is Mac-only until the Claude config migrates out of nix-config.
 .claude/statusline.sh
+# Ghostty is Mac-only; Linux uses alacritty from nix-config.
+.config/ghostty
 {{ end }}

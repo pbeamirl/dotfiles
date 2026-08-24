@@ -12,7 +12,7 @@ Division of labor with the sibling `../nix-config` (a NixOS flake for the Linux 
 - Package installation here is brew-only, macOS-only: packages go in `Brewfile`, and every install script is wrapped in a `{{ if eq .chezmoi.os "darwin" }}` guard.
 - This repo owns app configs.
 
-**Direction (not done yet):** nvim, fish, ghostty, and Emacs configs will migrate here out of nix-config, one at a time. Until a given config has migrated, don't duplicate what home-manager still owns.
+**Direction (not done yet):** nvim, fish, and Emacs configs will migrate here out of nix-config, one at a time. Until a given config has migrated, don't duplicate what home-manager still owns. (Ghostty was never in nix-config; its config lives here, Mac-only — Linux uses alacritty from nix-config.)
 
 ## Commands
 
