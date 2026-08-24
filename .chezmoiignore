@@ -1,3 +1,7 @@
 README.md
 CLAUDE.md
 Brewfile
+{{ if ne .chezmoi.os "darwin" }}
+# Status line is Mac-only until the Claude config migrates out of nix-config.
+.claude/statusline.sh
+{{ end }}

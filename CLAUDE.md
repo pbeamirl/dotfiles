@@ -28,7 +28,7 @@ chezmoi init --source ~/Repositories/github.com/unclebeam/dotfiles --apply
 ## Layout
 
 - Repo root = chezmoi source root. App configs live under `dot_config/<app>/` (→ `~/.config/<app>/`).
-- `dot_claude/` → `~/.claude/` (user-level `CLAUDE.md` + `settings.json`). Claude Code edits `settings.json` itself (`/model`, `/config`); after that, run `chezmoi re-add ~/.claude/settings.json` to sync the change back here.
+- `dot_claude/` → `~/.claude/` (user-level `CLAUDE.md`, `settings.json`, and `executable_statusline.sh` — the Claude Code status line; Mac-only via `.chezmoiignore` while nix-config still owns it on Linux). Claude Code edits `settings.json` itself (`/model`, `/config`); after that, run `chezmoi re-add ~/.claude/settings.json` to sync the change back here.
 - `Brewfile` — the single list of brew-managed packages (macOS). Adding a package = one line here; `run_onchange_install-packages.sh.tmpl` re-runs `brew bundle` when it changes.
 - `run_once_*` / `run_onchange_*` scripts — setup steps chezmoi runs for us.
 - `.chezmoiignore` — repo-only files (README, this file, Brewfile) that must not be applied to `$HOME`; add new repo-only files there.
