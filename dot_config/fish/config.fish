@@ -8,3 +8,8 @@ end
 
 # ~/.local/bin (user-installed tools)
 fish_add_path --global $HOME/.local/bin
+
+# Prompt (starship comes from brew on macOS, nix on Linux)
+if status is-interactive; and type -q starship
+    starship init fish | source
+end

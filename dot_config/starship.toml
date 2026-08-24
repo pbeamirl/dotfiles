@@ -1,0 +1,18 @@
+# Starship prompt — starter config on top of the defaults.
+# Reference: https://starship.rs/config/
+"$schema" = "https://starship.rs/config-schema.json"
+
+# Compact: no blank line between prompts
+add_newline = false
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+
+[cmd_duration]
+# Only show duration for commands slower than 2s
+min_time = 2000
+
+[nix_shell]
+# Shown when inside `nix develop` / `nix-shell` (NixOS machines)
+disabled = false
