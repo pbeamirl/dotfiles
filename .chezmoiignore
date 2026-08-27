@@ -6,4 +6,6 @@ Brewfile
 .claude/statusline.sh
 # Ghostty is Mac-only; Linux uses alacritty from nix-config.
 .config/ghostty
+# Hammerspoon is Mac-only.
+.config/hammerspoon
 {{ end }}
