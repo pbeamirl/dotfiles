@@ -8,4 +8,6 @@ Brewfile
 .config/ghostty
 # Hammerspoon is Mac-only.
 .config/hammerspoon
+# Emacs config is Mac-only; Linux Emacs is owned by nix-config.
+.config/emacs
 {{ end }}
