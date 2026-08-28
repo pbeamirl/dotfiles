@@ -1,10 +1,25 @@
 local leader = { "cmd", "ctrl" }
 
-hs.hotkey.bind(leader, "m", function()
-   hs.alert.show("Hello, Hammerspoon!")
-   hs.notify.new({title="Hammerspoon", informativeText="Hello World"}):send()
+
+-- cycle through windows in the current space
+local wf = hs.window.filter.new():setCurrentSpace(true)
+
+local function cycle(dir)
+  local wins = wf:getWindows(hs.window.filter.sortByCreated)
+  if #wins == 0 then return end
+
+  local cur, idx = hs.window.focusedWindow(), 1
+  if cur then
+    for i, w in ipairs(wins) do
+      if w:id() == cur:id() then idx = i break end
+    end
+  end
+
+  wins[(idx - 1 + dir) % #wins + 1]:focus()
 end
-)
+
+hs.hotkey.bind({"alt"}, "`", function() cycle(1) end)         -- next
+hs.hotkey.bind({"alt", "shift"}, "`", function() cycle(-1) end) -- previous
 
 -- Window management
 hs.window.animationDuration = 0
