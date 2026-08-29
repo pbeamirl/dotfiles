@@ -2,12 +2,12 @@ README.md
 CLAUDE.md
 Brewfile
 {{ if ne .chezmoi.os "darwin" }}
-# Status line is Mac-only until the Claude config migrates out of nix-config.
+# Status line is Mac-only.
 .claude/statusline.sh
-# Ghostty is Mac-only; Linux uses alacritty from nix-config.
+# Ghostty is Mac-only.
 .config/ghostty
 # Hammerspoon is Mac-only.
 .config/hammerspoon
-# Emacs config is Mac-only; Linux Emacs is owned by nix-config.
+# Emacs config is Mac-only.
 .config/emacs
 {{ end }}
