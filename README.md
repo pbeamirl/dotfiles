@@ -5,7 +5,7 @@ Dotfiles managed by [chezmoi](https://www.chezmoi.io/), for both Mac and Linux. 
 ## Bootstrap (new machine)
 
 ```sh
-chezmoi init --source ~/Repositories/github.com/unclebeam/dotfiles --apply
+chezmoi init --source ~/Repositories/github.com/pbeamirl/dotfiles --apply
 ```
 
 ## Daily use

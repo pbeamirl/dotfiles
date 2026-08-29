@@ -22,7 +22,7 @@ chezmoi diff        # what apply would change — the main "am I in sync" check
 chezmoi add <file>  # bring an existing file in $HOME under management
 
 # Bootstrap on a new machine (one time; persists sourceDir):
-chezmoi init --source ~/Repositories/github.com/unclebeam/dotfiles --apply
+chezmoi init --source ~/Repositories/github.com/pbeamirl/dotfiles --apply
 ```
 
 ## Layout

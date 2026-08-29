@@ -1,3 +1,3 @@
 # Per-account identity lives in the included files, never here.
-[includeIf "gitdir:~/Repositories/github.com/unclebeam/"]
-    path = ~/.config/git/unclebeam
+[includeIf "gitdir:~/Repositories/github.com/pbeamirl/"]
+    path = ~/.config/git/pbeamirl
