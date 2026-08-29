@@ -1,12 +1,11 @@
 {
-  "tui": "fullscreen",
-  "theme": "auto",
-  "agentPushNotifEnabled": true,
-  "model": "claude-fable-5[1m]",
   "includeCoAuthoredBy": false,
   "statusLine": {
     "type": "command",
     "command": "bash ~/.claude/statusline.sh"
   },
-  "effortLevel": "high"
+  "effortLevel": "high",
+  "tui": "fullscreen",
+  "theme": "auto",
+  "agentPushNotifEnabled": true
 }

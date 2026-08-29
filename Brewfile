@@ -1,10 +1,11 @@
-tap "d12frosted/emacs-plus"
+tap "d12frosted/emacs-plus", trusted: { casks: ["emacs-plus-app"] }
 
 cask_args adopt: true
 
 brew "age"
 brew "chezmoi"
 brew "fzf"
+brew "lazygit"
 brew "mas"
 brew "mise"
 brew "starship"
@@ -14,6 +15,7 @@ brew "zsh-syntax-highlighting"
 cask "1password"
 cask "betterdisplay"
 cask "claude"
+cask "claude-code"
 cask "docker-desktop"
 cask "emacs-plus-app"
 cask "font-blex-mono-nerd-font"
