@@ -7,5 +7,8 @@
   "effortLevel": "high",
   "tui": "fullscreen",
   "theme": "auto",
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "permissions": {
+    "defaultMode": "plan"
+  }
 }
