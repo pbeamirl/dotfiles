@@ -1,0 +1,9 @@
+#!/bin/sh
+# Install tools pinned in the global mise config whenever it changes.
+# config.toml hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+
+set -eu
+
+if command -v mise >/dev/null 2>&1; then
+  mise install
+fi
