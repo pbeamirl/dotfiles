@@ -3,11 +3,22 @@ autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # case-insensitive
 
+# Type a bare directory path (e.g. ..) to cd into it, fish-style
+setopt auto_cd
+
 # History (fish-like: shared, deduped)
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=50000
 SAVEHIST=50000
 setopt share_history hist_ignore_all_dups hist_ignore_space
+
+# Nicer file listing and viewing (eza and bat come from brew on macOS)
+if command -v eza >/dev/null 2>&1; then
+  alias lt='eza --tree --level=3'
+fi
+if command -v bat >/dev/null 2>&1; then
+  alias cat='bat --paging=never'
+fi
 
 # Tool version manager (mise comes from brew on macOS)
 if command -v mise >/dev/null 2>&1; then

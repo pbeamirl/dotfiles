@@ -3,7 +3,9 @@ tap "d12frosted/emacs-plus", trusted: { casks: ["emacs-plus-app"] }
 cask_args adopt: true
 
 brew "age"
+brew "bat"
 brew "chezmoi"
+brew "eza"
 brew "fzf"
 brew "lazygit"
 brew "mas"
