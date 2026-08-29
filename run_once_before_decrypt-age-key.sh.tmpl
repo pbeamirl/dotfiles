@@ -1,0 +1,12 @@
+#!/bin/bash
+set -euo pipefail
+
+# Restore the age identity on a fresh machine so encrypted files can be applied.
+# Prompts once for the passphrase protecting key.txt.age; no-op when the key exists.
+KEY="$HOME/.config/chezmoi/key.txt"
+
+if [ ! -f "$KEY" ]; then
+  mkdir -p "$(dirname "$KEY")"
+  chezmoi age decrypt --passphrase --output "$KEY" "{{ .chezmoi.sourceDir }}/key.txt.age"
+  chmod 600 "$KEY"
+fi

@@ -1,6 +1,7 @@
 README.md
 CLAUDE.md
 Brewfile
+key.txt.age
 {{ if ne .chezmoi.os "darwin" }}
 # Status line is Mac-only.
 .claude/statusline.sh
@@ -10,4 +11,6 @@ Brewfile
 .config/hammerspoon
 # Emacs config is Mac-only.
 .config/emacs
+# Karabiner-Elements is Mac-only.
+.config/karabiner
 {{ end }}
