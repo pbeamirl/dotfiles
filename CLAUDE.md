@@ -29,7 +29,7 @@ chezmoi init --source ~/Repositories/github.com/pbeamirl/dotfiles --apply
 
 - **Installation is brew-only, macOS-only.** Never add apt/nix/other installers here; this repo installs nothing on Linux.
 - **Idempotent by construction.** Lean on tools that already are: `brew bundle` skips installed packages — never `brew install` in scripts. Any `run_*` script must check current state before mutating (see `run_once_set-default-shell.sh.tmpl`).
-- **Cross-platform by default.** OS-specific behavior goes behind `{{ if eq .chezmoi.os "darwin" }}` in templates, or runtime checks in shell configs (`if test -x /opt/homebrew/bin/brew`). Shared configs must not assume mac paths.
+- **Cross-platform by default.** OS-specific behavior goes behind `{{ if eq .chezmoi.os "darwin" }}` in templates, or runtime checks in shell configs (`if [ -x /opt/homebrew/bin/brew ]`). Shared configs must not assume mac paths.
 - **Keep it simple.** No wrapper scripts around chezmoi or brew; the flat layout above is the whole structure.
 
 ## Workflow

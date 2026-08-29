@@ -1,8 +1,10 @@
 tap "d12frosted/emacs-plus"
 
-brew "fish"
+brew "fzf"
 brew "mise"
 brew "starship"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
 
 cask "betterdisplay"
 cask "emacs-plus-app"

@@ -2,13 +2,9 @@
 #!/bin/bash
 set -euo pipefail
 
-FISH="$(brew --prefix)/bin/fish"
+ZSH="/bin/zsh"
 
-if ! grep -qx "$FISH" /etc/shells; then
-  echo "$FISH" | sudo tee -a /etc/shells
-fi
-
-if [ "$(dscl . -read "$HOME" UserShell | awk '{print $2}')" != "$FISH" ]; then
-  chsh -s "$FISH"
+if [ "$(dscl . -read "$HOME" UserShell | awk '{print $2}')" != "$ZSH" ]; then
+  chsh -s "$ZSH"
 fi
 {{ end -}}
