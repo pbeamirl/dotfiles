@@ -1,3 +1,11 @@
 # Per-account identity lives in the included files, never here.
 [includeIf "gitdir:~/Repositories/github.com/pbeamirl/"]
     path = ~/.config/git/pbeamirl
+[includeIf "gitdir:~/Repositories/github.com/7-peaks-software/"]
+    path = ~/.config/git/7peaks
+
+# The 7peaks org lives on a separate GitHub account, so its URLs go through the
+# github-7peaks SSH alias. Global (not in the includeIf) because clone runs
+# before the target directory — and therefore any gitdir match — exists.
+[url "git@github-7peaks:7-peaks-software/"]
+    insteadOf = git@github.com:7-peaks-software/
