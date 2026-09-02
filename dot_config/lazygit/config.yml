@@ -1,0 +1,33 @@
+# lazygit — Gruvbox dark hard, matching ~/.config/tmux/tmux.conf and Ghostty.
+# Theme only: every other setting stays at lazygit's defaults.
+#
+# lazygit reads ~/Library/Application Support/lazygit on macOS, so $LG_CONFIG_FILE
+# in ~/.zprofile points it here. On Linux this path is the default already.
+gui:
+  theme:
+    activeBorderColor:
+      - "#fabd2f"
+      - bold
+    inactiveBorderColor:
+      - "#665c54"
+    searchingActiveBorderColor:
+      - "#8ec07c"
+      - bold
+    optionsTextColor:
+      - "#83a598"
+    selectedLineBgColor:
+      - "#3c3836"
+    inactiveViewSelectedLineBgColor:
+      - "#282828"
+    cherryPickedCommitFgColor:
+      - "#1d2021"
+    cherryPickedCommitBgColor:
+      - "#8ec07c"
+    markedBaseCommitFgColor:
+      - "#1d2021"
+    markedBaseCommitBgColor:
+      - "#fabd2f"
+    unstagedChangesColor:
+      - "#fb4934"
+    defaultFgColor:
+      - "#ebdbb2"

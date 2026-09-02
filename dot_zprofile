@@ -13,3 +13,10 @@ if command -v nvim >/dev/null 2>&1; then
   export EDITOR=nvim
   export VISUAL=nvim
 fi
+
+# lazygit resolves its config dir via os.UserConfigDir(), which on macOS is
+# ~/Library/Application Support/lazygit — not ~/.config. Point it at the
+# XDG-style path so there is one config file, in one place, on both OSes.
+if [ -r "$HOME/.config/lazygit/config.yml" ]; then
+  export LG_CONFIG_FILE="$HOME/.config/lazygit/config.yml"
+fi
