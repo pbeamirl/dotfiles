@@ -3,6 +3,11 @@ autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'  # case-insensitive
 
+# Emacs line editing. Without an explicit choice, zsh picks its keymap from
+# $VISUAL/$EDITOR and selects vi mode when the value contains "vi" — which
+# "nvim" does, silently breaking ^A/^E/^F and autosuggestion accept.
+bindkey -e
+
 # Type a bare directory path (e.g. ..) to cd into it, fish-style
 setopt auto_cd
 
