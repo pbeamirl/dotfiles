@@ -35,6 +35,34 @@ if command -v fzf >/dev/null 2>&1; then
   source <(fzf --zsh)
 fi
 
+# Claude Code account routing. The 7peaks work seat is a separate Claude
+# subscription, and Claude Code stores exactly one login per CLAUDE_CONFIG_DIR:
+# the macOS Keychain entry is named after a hash of this exact path string, so
+# spell it one way, here, and nowhere else. Mirrors the per-directory git
+# identity split in ~/.config/git/config.
+CLAUDE_7PEAKS_CONFIG_DIR="$HOME/.claude-7peaks"
+CLAUDE_7PEAKS_TREE="$HOME/Repositories/github.com/7-peaks-software"
+
+claude() {
+  local dir="${CLAUDE_CONFIG_DIR:-}"
+  # An explicit CLAUDE_CONFIG_DIR always wins; CC_ACCOUNT=personal opts out.
+  # (CC_ACCOUNT, not CLAUDE_ACCOUNT — Claude Code owns the CLAUDE_ namespace
+  # and propagates those vars to its subprocesses.)
+  if [[ -z $dir && ${CC_ACCOUNT:-} != personal && $PWD/ == $CLAUDE_7PEAKS_TREE/* ]]; then
+    dir="$CLAUDE_7PEAKS_CONFIG_DIR"
+  fi
+  # Scoped to the invocation, never exported into the shell. `command` avoids
+  # recursing back into this function.
+  if [[ -n $dir ]]; then
+    CLAUDE_CONFIG_DIR="$dir" command claude "$@"
+  else
+    command claude "$@"
+  fi
+}
+
+# Personal account inside a work repo.
+alias claude-personal='CC_ACCOUNT=personal claude'
+
 # Fish-like autosuggestions and syntax highlighting (brew packages).
 # Syntax highlighting must be sourced last.
 if [ -n "${HOMEBREW_PREFIX:-}" ]; then

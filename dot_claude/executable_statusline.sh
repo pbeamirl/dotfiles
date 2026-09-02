@@ -5,6 +5,7 @@
 #   󰧑 ▰▰▰▱▱▱▱▱ 34%                         context window used
 #   󰥔 12% → 5:00 PM                        5-hour session limit, reset time
 #   󰃭 All 25% · Fable 46% → Sat 8:00 PM    7-day limits (all models / model-scoped), reset
+#   󰀄 Seven Peaks                          account this session is signed in as
 #   󰉋 dotfiles  󰊢 main*                   workspace dir, git branch (* = dirty)
 #   Fable 5                                 current model
 #
@@ -13,12 +14,16 @@
 #   .rate_limits.{five_hour,seven_day}.{used_percentage,resets_at},
 #   .model.display_name, .workspace.current_dir
 #
+# The account name is not in that JSON; it comes from the profile's own
+# config file (~/.claude.json, or $CLAUDE_CONFIG_DIR/.claude.json when set).
+#
 # The stdin JSON only carries the combined `seven_day` weekly figure. The
 # model-scoped weekly limit (e.g. Fable) comes from the Anthropic usage API
 # (https://api.anthropic.com/api/oauth/usage) using the local OAuth token —
-# macOS Keychain first, then ~/.claude/.credentials.json (Linux). The token
+# macOS Keychain first, then <config dir>/.credentials.json (Linux). The token
 # is never printed. Responses are cached for 60s in
-# ~/.claude/statusline-usage-cache.json so most renders never hit the network.
+# <config dir>/statusline-usage-cache.json so most renders never hit the
+# network. <config dir> is $CLAUDE_CONFIG_DIR or ~/.claude — one per account.
 #
 # Icons are Nerd Font glyphs, written literally because macOS bash 3.2 has no
 # $'\U…' escapes; swap or blank them in the ICON_* block below. jq output is
@@ -29,6 +34,7 @@
 ICON_CTX="󰧑"     # nf-md-brain          U+F09D1
 ICON_SESSION="󰥔" # nf-md-clock_outline  U+F0954
 ICON_WEEK="󰃭"    # nf-md-calendar       U+F00ED
+ICON_ACCOUNT="󰀄" # nf-md-account        U+F0004
 ICON_DIR="󰉋"     # nf-md-folder         U+F024B
 ICON_GIT="󰊢"     # nf-md-source_branch  U+F02A2
 BAR_WIDTH=8
@@ -142,17 +148,29 @@ if [ -n "$five_pct" ]; then
 fi
 
 # --- Model-scoped weekly limit (usage API, cached) ----------------------------
-usage_cache="$HOME/.claude/statusline-usage-cache.json"
+# Each account lives in its own config dir (CLAUDE_CONFIG_DIR; see the claude()
+# wrapper in ~/.zshrc). Claude Code names the Keychain entry after that dir:
+# bare for the default ~/.claude, else suffixed with the first 8 hex of its
+# sha256. Mirror that here so the weekly figures belong to the account this
+# session is actually signed in as, and so the two profiles do not share a
+# cache file. With CLAUDE_CONFIG_DIR unset this is byte-for-byte the old path.
+cfg_dir="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
+kc_service="Claude Code-credentials"
+if [ -n "${CLAUDE_CONFIG_DIR:-}" ]; then
+  kc_service="$kc_service-$(printf '%s' "$CLAUDE_CONFIG_DIR" | shasum -a 256 | cut -c1-8)"
+fi
+
+usage_cache="$cfg_dir/statusline-usage-cache.json"
 cache_fresh=false
 if [ -f "$usage_cache" ]; then
   cache_mtime=$(stat -f %m "$usage_cache" 2>/dev/null || stat -c %Y "$usage_cache" 2>/dev/null)
   [ -n "$cache_mtime" ] && [ $(( $(date +%s) - cache_mtime )) -lt 60 ] && cache_fresh=true
 fi
 if [ "$cache_fresh" != true ]; then
-  oauth_token=$(security find-generic-password -s "Claude Code-credentials" -w 2>/dev/null \
+  oauth_token=$(security find-generic-password -s "$kc_service" -w 2>/dev/null \
     | jq -r '.claudeAiOauth.accessToken // empty')
-  if [ -z "$oauth_token" ] && [ -f "$HOME/.claude/.credentials.json" ]; then
-    oauth_token=$(jq -r '.claudeAiOauth.accessToken // empty' "$HOME/.claude/.credentials.json" 2>/dev/null)
+  if [ -z "$oauth_token" ] && [ -f "$cfg_dir/.credentials.json" ]; then
+    oauth_token=$(jq -r '.claudeAiOauth.accessToken // empty' "$cfg_dir/.credentials.json" 2>/dev/null)
   fi
   if [ -n "$oauth_token" ]; then
     usage_resp=$(curl -s --max-time 3 "https://api.anthropic.com/api/oauth/usage" \
@@ -195,6 +213,27 @@ if [ -n "$week_str" ]; then
   [ -n "$week_rt" ] && week_str="$week_str ${DIM}→ $week_rt${RESET}"
 fi
 
+# --- Account ------------------------------------------------------------------
+# Which Claude account this session is signed in as — the personal profile and
+# the 7peaks one are separate logins, and the line is otherwise identical. Each
+# profile stores its login beside its config dir: ~/.claude.json for the default
+# profile, $CLAUDE_CONFIG_DIR/.claude.json for any other.
+if [ -n "${CLAUDE_CONFIG_DIR:-}" ]; then
+  cfg_json="$CLAUDE_CONFIG_DIR/.claude.json"
+else
+  cfg_json="$HOME/.claude.json"
+fi
+
+account_str=""
+if [ -f "$cfg_json" ]; then
+  account=$(jq -r '.oauthAccount.organizationName // .oauthAccount.emailAddress // empty' \
+    "$cfg_json" 2>/dev/null)
+  # A personal account's org is auto-named "<email>'s Organization"; drop the
+  # suffix so it reads as just the address. Real org names are left alone.
+  account="${account%"'s Organization"}"
+  [ -n "$account" ] && account_str="$ICON_ACCOUNT $account"
+fi
+
 # --- Workspace: directory + git branch ---------------------------------------
 dir_str="" git_str=""
 if [ -n "$cwd" ] && [ -d "$cwd" ]; then
@@ -214,6 +253,7 @@ parts=()
 [ -n "$ctx_str" ] && parts+=("$ctx_str")
 [ -n "$five_str" ] && parts+=("$five_str")
 [ -n "$week_str" ] && parts+=("$week_str")
+[ -n "$account_str" ] && parts+=("$account_str")
 [ -n "$dir_str" ] && parts+=("$dir_str")
 [ -n "$git_str" ] && parts+=("$git_str")
 [ -n "$model_name" ] && parts+=("${BOLD}${model_name}${RESET}")
