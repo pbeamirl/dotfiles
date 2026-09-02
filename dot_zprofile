@@ -5,3 +5,11 @@ fi
 
 # ~/.local/bin (user-installed tools)
 export PATH="$HOME/.local/bin:$PATH"
+
+# Editor. VISUAL is what tools reach for first, EDITOR the fallback — both
+# point at nvim so anything that shells out stays in the terminal.
+# VS Code is opened by hand (`code .`), never wired in here.
+if command -v nvim >/dev/null 2>&1; then
+  export EDITOR=nvim
+  export VISUAL=nvim
+fi
