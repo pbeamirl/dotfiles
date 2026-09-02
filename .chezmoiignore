@@ -9,8 +9,6 @@ key.txt.age
 .config/ghostty
 # Hammerspoon is Mac-only.
 .config/hammerspoon
-# Emacs config is Mac-only.
-.config/emacs
 # Karabiner-Elements is Mac-only.
 .config/karabiner
 {{ end }}

@@ -1,5 +1,3 @@
-tap "d12frosted/emacs-plus", trusted: { casks: ["emacs-plus-app"] }
-
 cask_args adopt: true
 
 brew "age"
@@ -21,7 +19,6 @@ cask "1password"
 cask "betterdisplay"
 cask "claude"
 cask "claude-code"
-cask "emacs-plus-app"
 cask "font-blex-mono-nerd-font"
 cask "font-iosevka-term-nerd-font"
 cask "ghostty"
@@ -35,5 +32,6 @@ cask "stats"
 cask "visual-studio-code"
 cask "zed"
 
+mas "Amphetamine", id: 937984704
 mas "LINE", id: 539883307
 mas "Things 3", id: 904280696
