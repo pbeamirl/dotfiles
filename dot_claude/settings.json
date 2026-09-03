@@ -1,7 +1,17 @@
 {
-  "includeCoAuthoredBy": false,
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
   "permissions": {
-    "defaultMode": "auto"
+    "defaultMode": "auto",
+    "deny": [
+      "Read(~/.ssh/**)",
+      "Read(~/.config/chezmoi/key.txt)",
+      "Read(~/.aws/**)",
+      "Read(.env)",
+      "Read(.env.*)"
+    ]
   },
   "statusLine": {
     "type": "command",
