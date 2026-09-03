@@ -1,4 +1,12 @@
 # Per-account identity lives in the included files, never here.
+#
+# useConfigOnly stops git guessing an identity from the hostname when no includeIf
+# below matches: a repo outside these two trees fails to commit instead of quietly
+# authoring as pbeamirl@<host>. ~/.ssh/config already routes bitbucket-7peaks,
+# bitbucket-appconduct and gitlab-appconduct, none of which have a rule here yet.
+[user]
+    useConfigOnly = true
+
 [includeIf "gitdir:~/Repositories/github.com/pbeamirl/"]
     path = ~/.config/git/pbeamirl
 [includeIf "gitdir:~/Repositories/github.com/7-peaks-software/"]
@@ -9,3 +17,17 @@
 # before the target directory — and therefore any gitdir match — exists.
 [url "git@github-7peaks:7-peaks-software/"]
     insteadOf = git@github.com:7-peaks-software/
+
+[init]
+    defaultBranch = main
+[push]
+    autoSetupRemote = true
+[fetch]
+    prune = true
+# Refuse to merge on divergence; rebase or merge deliberately instead.
+[pull]
+    ff = only
+[rebase]
+    autosquash = true
+[diff]
+    algorithm = histogram

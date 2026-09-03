@@ -1,0 +1,5 @@
+# Global excludes. Git reads this path by default under XDG, so no core.excludesFile
+# is needed. Claude Code appends here itself (it adds the line below the first time
+# it saves a project-local permission), so `chezmoi re-add ~/.config/git/ignore`
+# after it does — same treatment as the Claude Code settings files.
+**/.claude/settings.local.json
