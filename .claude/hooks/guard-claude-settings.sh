@@ -35,10 +35,16 @@ esac
 case "$cmd" in
   *"git add"*)
     case "$cmd" in
-      *dot_claude*|*" -A"*|*" --all"*|*" -u"*|*" .") included=yes ;;
+      *" -A"*|*" --all"*|*" -u"*|*" .") included=yes ;;
       *" . "*) included=yes ;;
     esac
     ;;
+esac
+# Naming a path under dot_claude/ counts for either verb — this is what catches
+# `git commit -m msg dot_claude/settings.json`, where nothing is staged and the
+# checks above see an empty index.
+case "$cmd" in
+  *dot_claude*) included=yes ;;
 esac
 [ "$included" = yes ] || exit 0
 
