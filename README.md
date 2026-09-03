@@ -40,8 +40,7 @@ Dotfiles managed by [chezmoi](https://www.chezmoi.io/), for both Mac and Linux. 
 6. Open a new terminal; restore mise tools and verify:
 
    ```sh
-   mise use -g node@22
-   mise use -g npm:@nestjs/cli
+   mise install          # installs the tools pinned in ~/.config/mise/config.toml
    chezmoi diff          # should be empty
    brew bundle check     # should be satisfied
    ```

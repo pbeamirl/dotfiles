@@ -1,2 +1,5 @@
+# Add tools here rather than with `mise use -g` — that command rewrites this same
+# file, so it shows up as chezmoi drift. `run_onchange_install-mise-tools.sh.tmpl`
+# runs `mise install` whenever this file changes.
 [tools]
 node = "latest"
