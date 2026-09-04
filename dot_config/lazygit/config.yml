@@ -2,7 +2,7 @@
 # Theme only: every other setting stays at lazygit's defaults.
 #
 # lazygit reads ~/Library/Application Support/lazygit on macOS, so $LG_CONFIG_FILE
-# in ~/.zprofile points it here. On Linux this path is the default already.
+# in ~/.zprofile points it here.
 gui:
   theme:
     activeBorderColor:

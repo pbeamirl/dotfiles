@@ -1,7 +1,5 @@
-# Homebrew (macOS only)
-if [ -x /opt/homebrew/bin/brew ]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
+# Homebrew (Apple Silicon prefix)
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # ~/.local/bin (user-installed tools)
 export PATH="$HOME/.local/bin:$PATH"
@@ -16,7 +14,5 @@ fi
 
 # lazygit resolves its config dir via os.UserConfigDir(), which on macOS is
 # ~/Library/Application Support/lazygit — not ~/.config. Point it at the
-# XDG-style path so there is one config file, in one place, on both OSes.
-if [ -r "$HOME/.config/lazygit/config.yml" ]; then
-  export LG_CONFIG_FILE="$HOME/.config/lazygit/config.yml"
-fi
+# XDG-style path so the config lives with everything else.
+export LG_CONFIG_FILE="$HOME/.config/lazygit/config.yml"

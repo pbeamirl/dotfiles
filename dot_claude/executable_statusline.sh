@@ -19,9 +19,8 @@
 #
 # The stdin JSON only carries the combined `seven_day` weekly figure. The
 # model-scoped weekly limit (e.g. Fable) comes from the Anthropic usage API
-# (https://api.anthropic.com/api/oauth/usage) using the local OAuth token —
-# macOS Keychain first, then <config dir>/.credentials.json (Linux). The token
-# is never printed. Responses are cached for 60s in
+# (https://api.anthropic.com/api/oauth/usage) using the local OAuth token from
+# the macOS Keychain. The token is never printed. Responses are cached for 60s in
 # <config dir>/statusline-usage-cache.json so most renders never hit the
 # network. <config dir> is $CLAUDE_CONFIG_DIR or ~/.claude — one per account.
 #
@@ -102,11 +101,11 @@ bar_pct() {
 fmt_time() {
   local epoch="$1" time_str reset_day
   [ -z "$epoch" ] && return
-  time_str=$(date -r "$epoch" "+%-I:%M %p" 2>/dev/null || date -d "@$epoch" "+%-I:%M %p" 2>/dev/null)
+  time_str=$(date -r "$epoch" "+%-I:%M %p" 2>/dev/null)
   [ -z "$time_str" ] && return
-  reset_day=$(date -r "$epoch" "+%Y-%m-%d" 2>/dev/null || date -d "@$epoch" "+%Y-%m-%d" 2>/dev/null)
+  reset_day=$(date -r "$epoch" "+%Y-%m-%d" 2>/dev/null)
   if [ "$reset_day" != "$(date "+%Y-%m-%d")" ]; then
-    printf "%s %s" "$(date -r "$epoch" "+%a" 2>/dev/null || date -d "@$epoch" "+%a" 2>/dev/null)" "$time_str"
+    printf "%s %s" "$(date -r "$epoch" "+%a" 2>/dev/null)" "$time_str"
   else
     printf "%s" "$time_str"
   fi
@@ -117,8 +116,7 @@ iso_to_epoch() {
   local iso="$1" trimmed
   [ -z "$iso" ] && return
   trimmed="${iso%%.*}"; trimmed="${trimmed%%+*}"
-  date -u -j -f "%Y-%m-%dT%H:%M:%S" "$trimmed" +%s 2>/dev/null \
-    || date -d "$iso" +%s 2>/dev/null
+  date -u -j -f "%Y-%m-%dT%H:%M:%S" "$trimmed" +%s 2>/dev/null
 }
 
 # --- Context window -----------------------------------------------------------
@@ -163,15 +161,12 @@ fi
 usage_cache="$cfg_dir/statusline-usage-cache.json"
 cache_fresh=false
 if [ -f "$usage_cache" ]; then
-  cache_mtime=$(stat -f %m "$usage_cache" 2>/dev/null || stat -c %Y "$usage_cache" 2>/dev/null)
+  cache_mtime=$(stat -f %m "$usage_cache" 2>/dev/null)
   [ -n "$cache_mtime" ] && [ $(( $(date +%s) - cache_mtime )) -lt 60 ] && cache_fresh=true
 fi
 if [ "$cache_fresh" != true ]; then
   oauth_token=$(security find-generic-password -s "$kc_service" -w 2>/dev/null \
     | jq -r '.claudeAiOauth.accessToken // empty')
-  if [ -z "$oauth_token" ] && [ -f "$cfg_dir/.credentials.json" ]; then
-    oauth_token=$(jq -r '.claudeAiOauth.accessToken // empty' "$cfg_dir/.credentials.json" 2>/dev/null)
-  fi
   if [ -n "$oauth_token" ]; then
     usage_resp=$(curl -s --max-time 3 "https://api.anthropic.com/api/oauth/usage" \
       -H "Authorization: Bearer $oauth_token" \

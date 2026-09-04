@@ -1,4 +1,3 @@
-{{ if eq .chezmoi.os "darwin" -}}
 #!/bin/bash
 set -euo pipefail
 
@@ -8,4 +7,3 @@ CONFIG="~/.config/hammerspoon/init.lua"
 if [ "$(defaults read org.hammerspoon.Hammerspoon MJConfigFile 2>/dev/null || true)" != "$CONFIG" ]; then
   defaults write org.hammerspoon.Hammerspoon MJConfigFile "$CONFIG"
 fi
-{{ end -}}

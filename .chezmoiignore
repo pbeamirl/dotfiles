@@ -2,11 +2,3 @@ README.md
 CLAUDE.md
 Brewfile
 key.txt.age
-{{ if ne .chezmoi.os "darwin" }}
-# Ghostty is Mac-only.
-.config/ghostty
-# Hammerspoon is Mac-only.
-.config/hammerspoon
-# Karabiner-Elements is Mac-only.
-.config/karabiner
-{{ end }}

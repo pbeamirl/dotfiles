@@ -1,6 +1,9 @@
 #!/bin/sh
 # Install tools pinned in the global mise config whenever it changes.
 # config.toml hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+#
+# run_onchange scripts run alphabetically, so on a fresh machine this fires
+# before install-packages has put mise on PATH; README step 6 covers that.
 
 set -eu
 

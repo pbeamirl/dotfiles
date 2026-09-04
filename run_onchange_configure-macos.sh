@@ -1,4 +1,3 @@
-{{ if eq .chezmoi.os "darwin" -}}
 #!/bin/bash
 set -euo pipefail
 
@@ -14,4 +13,3 @@ defaults write -g InitialKeyRepeat -int 30
 # Apply preference changes without logout (private framework binary; guard its existence)
 ACTIVATE="/System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings"
 [ -x "$ACTIVATE" ] && "$ACTIVATE" -u
-{{ end -}}

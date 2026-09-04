@@ -1,6 +1,6 @@
 # dotfiles
 
-Dotfiles managed by [chezmoi](https://www.chezmoi.io/), for both Mac and Linux. Packages on macOS come from the `Brewfile`. `~/.ssh/config` is age-encrypted in the repo; the identity lives in `key.txt.age`, protected by a passphrase (backed up in 1Password).
+Dotfiles managed by [chezmoi](https://www.chezmoi.io/) for two Apple-Silicon Macs (personal and 7peaks work laptop). Packages come from the `Brewfile`. `~/.ssh/config` is age-encrypted in the repo; the identity lives in `key.txt.age`, protected by a passphrase (backed up in 1Password).
 
 ## Bootstrap (fresh Mac)
 
@@ -44,6 +44,8 @@ Dotfiles managed by [chezmoi](https://www.chezmoi.io/), for both Mac and Linux. 
    chezmoi diff          # should be empty
    brew bundle check     # should be satisfied
    ```
+
+7. Set up herdr's Claude Code integration from inside herdr. It writes `~/.claude/hooks/herdr-agent-state.sh`, which the `SessionStart` hook in `~/.claude/settings.json` already points at; until then that hook is a harmless no-op.
 
 ## Daily use
 

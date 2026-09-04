@@ -17,7 +17,7 @@ HISTSIZE=50000
 SAVEHIST=50000
 setopt share_history hist_ignore_all_dups hist_ignore_space
 
-# Nicer file listing and viewing (eza and bat come from brew on macOS)
+# Nicer file listing and viewing
 if command -v eza >/dev/null 2>&1; then
   alias lt='eza --tree --level=3'
 fi
@@ -25,7 +25,7 @@ if command -v bat >/dev/null 2>&1; then
   alias cat='bat --paging=never'
 fi
 
-# Tool version manager (mise comes from brew on macOS)
+# Tool version manager
 if command -v mise >/dev/null 2>&1; then
   eval "$(mise activate zsh)"
 fi
@@ -70,9 +70,7 @@ alias claude-personal='CC_ACCOUNT=personal claude'
 
 # Fish-like autosuggestions and syntax highlighting (brew packages).
 # Syntax highlighting must be sourced last.
-if [ -n "${HOMEBREW_PREFIX:-}" ]; then
-  [ -r "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ] &&
-    source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-  [ -r "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] &&
-    source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-fi
+[ -r /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ] &&
+  source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+[ -r /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] &&
+  source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
