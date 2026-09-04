@@ -4,13 +4,28 @@
     "pr": ""
   },
   "permissions": {
-    "defaultMode": "auto",
     "deny": [
       "Read(~/.ssh/**)",
       "Read(~/.config/chezmoi/key.txt)",
       "Read(~/.aws/**)",
       "Read(.env)",
       "Read(.env.*)"
+    ],
+    "defaultMode": "auto"
+  },
+  "model": "claude-fable-5-1[1m]",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '/Users/pbeamirl/.claude/hooks/herdr-agent-state.sh' session",
+            "timeout": 10
+          }
+        ]
+      }
     ]
   },
   "statusLine": {
@@ -20,6 +35,5 @@
   "effortLevel": "high",
   "tui": "fullscreen",
   "theme": "auto",
-  "agentPushNotifEnabled": true,
-  "advisorModel": "fable"
+  "agentPushNotifEnabled": true
 }
