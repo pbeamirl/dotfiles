@@ -3,10 +3,15 @@
 #
 # Claude Code rewrites its settings.json itself (/model, /config); those edits reach
 # this repo via `chezmoi re-add` and are not always meant to sync across devices.
+# CLAUDE.md is hand-edited rather than rewritten, but the two profiles' copies are
+# meant to stay in step, so a one-sided edit is worth a look before it is committed.
 # One file per account profile — see dot_zshrc for the routing.
 # Never block on error — a broken guard must not stand between the user and a commit.
 
-TARGETS='dot_claude/settings.json dot_claude-7peaks/settings.json'
+# Newline-separated on purpose: the unquoted uses below word-split on it just the
+# same, and one line per profile stays readable as the list grows.
+TARGETS='dot_claude/settings.json dot_claude/CLAUDE.md
+dot_claude-7peaks/settings.json dot_claude-7peaks/CLAUDE.md'
 
 input=$(cat)
 cmd=$(printf '%s' "$input" | jq -r '.tool_input.command // ""' 2>/dev/null) || exit 0
@@ -53,7 +58,7 @@ esac
 dirty=$(git status --porcelain -- $TARGETS 2>/dev/null | awk '{print $NF}' | tr '\n' ' ' | sed 's/ *$//')
 diff=$(git diff HEAD -- $TARGETS 2>/dev/null)
 reason=$(printf '%s\n\n%s\n\n%s' \
-  "This git command includes Claude Code settings that Claude Code edits on its own (/model, /config), so the change may be machine-local rather than something to sync across devices: ${dirty}" \
+  "This git command includes per-profile Claude Code config — settings.json is rewritten by Claude Code itself (/model, /config) and may be machine-local; CLAUDE.md is meant to stay in step across both profiles: ${dirty}" \
   "$diff" \
   "Approve to commit it as-is. Reject to leave it out (e.g. \`git restore ${dirty}\`, or commit the other paths explicitly).")
 
