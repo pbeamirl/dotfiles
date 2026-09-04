@@ -1,0 +1,9 @@
+# herdr — Gruvbox dark, matching ~/.config/tmux/tmux.conf, Ghostty and lazygit.
+# Theme only: every other setting stays at herdr's defaults.
+#
+# herdr's built-in gruvbox leaves the sidebar background unset, so it inherits
+# Ghostty's Gruvbox Dark Hard #1d2021; the tab bar and chrome sit one step
+# lighter on #282828. Run `herdr server reload-config` (or prefix+shift+r) to
+# pick this up in a running session.
+[theme]
+name = "gruvbox"
